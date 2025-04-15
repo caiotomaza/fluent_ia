@@ -1,3 +1,5 @@
 <?php
     
+    namespace Src\Model;
+
 ?>

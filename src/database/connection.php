@@ -1,5 +1,7 @@
 <?php
 
+    namespace Src\Database;
+
     class Conexao {
         private static $instance;
 
