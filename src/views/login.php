@@ -10,11 +10,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./asset/favicon.ico" type="image/x-icon" />
   </head>
   <body class="bg-black h-screen flex items-center justify-center text-white">
     <div>
-      <img src="../img/logo.png" alt="Logo Fluent IA" />
+      <img src="./asset/logo.png" alt="Logo Fluent IA" />
 
       <form class="grid text-center" action="">
         <input
@@ -38,7 +38,7 @@
 
         <div class="flex justify-between mb-2">
           <a
-            href="./register.html"
+            href="./register.php"
             class="bg-[#181879] text-white px-6 py-2 rounded-lg font-medium transition transform active:scale-95 hover:brightness-110 hover:scale-105 duration-300"
           >
             Registra-se
@@ -52,13 +52,13 @@
           </button>
         </div>
         <a
-          href="./forgotPassword.html"
+          href="./forgotPassword.php"
           class="hover:underline transition-all transform duration-300 hover:scale-105 font-medium"
           >Esqueci a senha</a
         >
       </form>
     </div>
 
-    <script src="../js/main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>

@@ -9,7 +9,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./asset/favicon.ico" type="image/x-icon" />
   </head>
   <body class="bg-black text-white h-screen flex">
     <aside
@@ -37,7 +37,7 @@
           Chat 01
           <img
             class="menu-icon cursor-pointer transition transform active:scale-95 hover:scale-110 duration-300"
-            src="../img/menu.png"
+            src="./asset/menu.png"
             alt="Menu"
           />
         </button>
@@ -139,6 +139,6 @@
       </form>
     </main>
 
-    <script src="../js/main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>

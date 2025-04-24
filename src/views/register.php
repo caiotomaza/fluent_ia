@@ -10,11 +10,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./asset/favicon.ico" type="image/x-icon" />
   </head>
   <body class="bg-black h-screen flex items-center justify-center text-white">
     <div>
-      <img src="../img/logo.png" alt="Logo Fluent IA" />
+      <img src="./asset/logo.png" alt="Logo Fluent IA" />
 
       <form class="grid text-center" action="">
         <input
@@ -61,6 +61,6 @@
       </form>
     </div>
 
-    <script src="../js/main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>

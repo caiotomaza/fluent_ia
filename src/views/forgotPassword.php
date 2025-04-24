@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Forgot Password</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./asset/favicon.ico" type="image/x-icon" />
   </head>
   <body class="bg-black h-screen flex items-center justify-center text-white">
     <div>
-      <img src="../img/logo.png" alt="Logo Fluent IA" />
+      <img src="./asset/logo.png" alt="Logo Fluent IA" />
 
       <form action="">
         <input
@@ -38,6 +38,6 @@
       </form>
     </div>
 
-    <script src="js/main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>
