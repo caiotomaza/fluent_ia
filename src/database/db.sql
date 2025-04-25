@@ -1,4 +1,4 @@
-CREATE DATABASE fluent_ia_db
+CREATE DATABASE fluent_ia_db,
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,

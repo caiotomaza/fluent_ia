@@ -3,13 +3,15 @@
     class user{
         protected $id;
         protected $nome;
+        protected $data_hora;
         protected $email;
         protected $senha;
 
         //Construct
-        public function __construct($id, $nome, $email, $senha){
+        public function __construct($id, $nome, $data_hora, $email, $senha){
             $this-> id = $id;
             $this-> nome = $nome;
+            $this-> data_hora = $data_hora;
             $this-> email = $email;
             $this-> senha = $senha;
         }
@@ -21,6 +23,10 @@
 
         public function getNome(){
             return $this-> nome;
+        }
+
+        public function getData_hora(){
+            return $this-> data_hora;
         }
 
         public function getEmail(){
@@ -40,6 +46,10 @@
             $this-> nome = $nome;
         }
 
+        public function setData_hora($data_hora){
+            $this-> data_hora = $data_hora;
+        }
+
         public function setEmail($email){
             $this-> email = $email;
         }
@@ -48,5 +58,5 @@
             $this-> senha = $senha;
         }
     }
-    
+
 ?>
