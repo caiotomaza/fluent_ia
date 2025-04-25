@@ -8,7 +8,7 @@
         protected $senha;
 
         //Construct
-        public function __construct($id, $nome, $data_hora, $email, $senha){
+        protected function __construct($id, $nome, $data_hora, $email, $senha){
             $this-> id = $id;
             $this-> nome = $nome;
             $this-> data_hora = $data_hora;
@@ -25,15 +25,15 @@
             return $this-> nome;
         }
 
-        public function getData_hora(){
+        private function getData_hora(){
             return $this-> data_hora;
         }
 
-        public function getEmail(){
+        protected function getEmail(){
             return $this-> email;
         }
 
-        public function getSenha(){
+        private function getSenha(){
             return $this-> senha;
         }
 
@@ -46,15 +46,15 @@
             $this-> nome = $nome;
         }
 
-        public function setData_hora($data_hora){
+        private function setData_hora($data_hora){
             $this-> data_hora = $data_hora;
         }
 
-        public function setEmail($email){
+        protected function setEmail($email){
             $this-> email = $email;
         }
 
-        public function setSenha($senha){
+        private function setSenha($senha){
             $this-> senha = $senha;
         }
     }
