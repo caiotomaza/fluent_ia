@@ -7,9 +7,9 @@
             try {
                 if (!isset(self::$instance)) {
                     self::$instance = new \PDO(
-                        'mysql:host=localhost;dbname=fluent_ia_db;charset=utf8', // Mudança aqui
-                        'root',      // Usuário padrão do XAMPP
-                        ''           // Senha padrão do XAMPP (geralmente vazia)
+                        'mysql:host=localhost;dbname=fluent_ia_db;charset=utf8', // Nome do data base com o charset
+                        'root', // Usuário padrão do XAMPP
+                        '' // Senha padrão do XAMPP (geralmente vazia)
                     );
 
                     self::$instance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
