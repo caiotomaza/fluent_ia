@@ -80,7 +80,7 @@
         </button>
       </div>
       <a href="./forgotPassword.php" class="hover:underline transition-all transform duration-300 hover:scale-105 font-medium">
-        Esqueci a senha
+        Esqueci a senha.
       </a>
     </form>
   </div>

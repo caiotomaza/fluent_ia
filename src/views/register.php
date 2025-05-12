@@ -1,3 +1,31 @@
+<?php
+  require_once __DIR__ . '/../controllers/user_control.php';
+
+  $erro = '';
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $nome = $_POST['nome'];
+      $email = $_POST['email'];
+      $senha = $_POST['senha'];
+
+      $userController = new UserController();
+      $usuarios = $userController->listarTodos();
+
+      foreach ($usuarios as $usuario) {
+          if ($usuario->getEmail() === $email && $usuario->getSenha() === $senha) {
+              // Login bem-sucedido
+              session_start();
+              $_SESSION['usuario_id'] = $usuario->getId();
+              $_SESSION['usuario_nome'] = $usuario->getNome();
+              header("Location: chat.php"); // redireciona para o painel
+              exit;
+          }
+      }
+
+      $erro = "E-mail ou senha inválidos.";
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -15,7 +43,7 @@
     <div>
       <img src="./asset/logo.png" alt="Logo Fluent IA" />
 
-      <form class="grid text-center" action="">
+      <form class="grid text-center" method="POST" action="">
         <input
           type="text"
           placeholder="Nome"
