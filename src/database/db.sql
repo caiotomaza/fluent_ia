@@ -25,3 +25,5 @@ CREATE TABLE mensagens (
     FOREIGN KEY (conversas_id) REFERENCES conversas(id) ON DELETE CASCADE,
     FOREIGN KEY (remetente_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+INSERT INTO users (nome, email, senha) VALUES ("teste", "teste@teste.com.br", "Teste@123");

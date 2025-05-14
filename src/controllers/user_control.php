@@ -77,5 +77,23 @@
          $stmt->bindParam(':id', $id);
          return $stmt->execute();
       }
+      // Buscar por e-mail
+      public function buscarPorEmail($email) {
+         $sql = "SELECT * FROM users WHERE email = :email";
+         $stmt = $this->conn->prepare($sql);
+         $stmt->bindParam(':email', $email);
+         $stmt->execute();
+
+         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return new User(
+                  $row['id'],
+                  $row['nome'],
+                  $row['data_hora'],
+                  $row['email'],
+                  $row['senha']
+            );
+         }
+         return null;
+      }
    }
 ?>
