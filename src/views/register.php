@@ -13,8 +13,8 @@
 
       $userController = new UserController();
       $sucesso = $userController->criar($nome, $email, $senha);
-  }
-  if ($sucesso) {
+      
+      if ($sucesso) {
       session_start();
 
       // Buscar usuário recém-criado
@@ -28,6 +28,7 @@
       } else {
           $mensagem = "Usuário criado, mas não foi possível iniciar a sessão.";
       }
+  }
   }
 ?>
 

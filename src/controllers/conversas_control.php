@@ -29,6 +29,7 @@
                 $conversas[] = new Conversas(
                     $row['id'],
                     $row['user_id'],
+                    $row['nome'],
                     $row['data_hora']
                 );
             }
@@ -46,6 +47,7 @@
                 return new Conversas(
                     $row['id'],
                     $row['user_id'],
+                    $row['user_id'],
                     $row['data_hora']
                 );
             }
@@ -58,6 +60,15 @@
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
+        }
+  
+
+        public function editarNome($id, $novoNome) {
+        $sql = "UPDATE conversas SET nome = :nome WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':nome', $novoNome);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
         }
     }
 ?>
