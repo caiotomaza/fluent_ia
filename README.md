@@ -41,3 +41,5 @@ Antes de começar, você precisa ter o seguinte instalado na sua máquina:
 1. Inicie o XAMPP com o Apache e o Mysql.
 
 2. Depois entre no site: [http://localhost/fluent_ia/](http://localhost/fluent_ia/).
+
+3. Para acessar o database: [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/).
