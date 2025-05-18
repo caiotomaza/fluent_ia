@@ -183,14 +183,14 @@
         </div>
 
       <div class="mt-4 relative">
+        
         <button class="w-full bg-[#181879] py-3 rounded-md flex justify-between text-2xl items-center px-4 hover:brightness-110 transition hover:bg-indigo-800 duration-300">
           <?= htmlspecialchars($usuario->getNome()) ?>
           <img class="menu-user cursor-pointer transition transform active:scale-95 hover:scale-110 duration-300" src="./asset/menu.png" alt=""/>
         </button>
 
-        <div
-          class="menu-options_user hidden absolute left-full bottom-0 ml-10 border border-[#181879] rounded-xl p-2 border-indigo-900 space-y-2 w-44 z-10 bg-[#181879]/50 backdrop-blur-sm"
-        >
+        <div class="menu-options_user hidden absolute left-full bottom-0 ml-10 border border-[#181879] rounded-xl p-2 border-indigo-900 space-y-2 w-44 z-10 bg-[#181879]/50 backdrop-blur-sm">
+
           <form method="POST" action="chat.php" name="excluir">
             <input type="hidden" name="excluir" value="1" />
             <button type="submit" class="bg-[#181879] w-full flex items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl">
@@ -198,6 +198,7 @@
               Excluir
             </button>
           </form>
+
           <form method="POST" action="chat.php" name="desconectar">
             <input type="hidden" name="desconectar" value="1" />
             <button type="submit" class="w-full flex bg-[#181879] items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl">
@@ -205,8 +206,11 @@
               Desconectar
             </button>
           </form>
+
         </div>
+
       </div>
+
     </aside>
 
     <main class="flex-1 flex flex-col justify-end p-4">
