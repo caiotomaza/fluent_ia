@@ -148,6 +148,14 @@
       header("Location: login.php");
       exit;
     }
+
+    // Salavar memssagen do usuario
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])){
+      $conversas_id = 1; //$_SESSION['conversa_id'];
+      $remetente_id = $_SESSION['usuario_id'];
+      $mensagem = trim($_POST['mensagem']);
+      $mensagensController->enviar($conversas_id, $remetente_id, $mensagem);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -230,7 +238,7 @@
               $maxWidth = 'max-w-[70%]';
             ?>
             <div class="<?= $messageClass ?> <?= $maxWidth ?> p-3 rounded-lg">
-              <p class="text-white"><?= htmlspecialchars($mensagem->getConteudo()) ?></p>
+              <p class="text-white"><?= htmlspecialchars($mensagem->getMessage()) ?></p>
               <span class="text-sm text-gray-400 block mt-1"><?= date('H:i', strtotime($mensagem->getData_hora())) ?></span>
             </div>
           <?php endforeach; ?>
@@ -250,8 +258,9 @@
         </button>
       </div>
 
+      
       <!-- Formulário de envio -->
-      <form class="flex items-center space-x-2" method="POST" action="enviar_mensagem.php">
+      <form class="flex items-center space-x-2" method="POST" action="index.php">
         <input type="hidden" name="conversas_id" value="<?= $conversaSelecionadaId ?>">
         <input
           type="text"
