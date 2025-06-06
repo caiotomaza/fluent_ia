@@ -305,8 +305,6 @@
         <?php } ?>
       </div>
 
-      <?php echo htmlspecialchars($_SESSION['metodo_ia']); ?>
-
       <!-- Área de mensagens pré-definidas -->
       <div class="flex gap-2 mb-4">
         <form method="POST" action="chat.php" name="melhorar">
