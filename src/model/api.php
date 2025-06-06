@@ -1,7 +1,6 @@
 <?php
 class api {
     private $apiKey = 'AIzaSyCW3nNw4Moam7nuQU2A8vFMECK8JuZGrKo';
-
     public function obterResposta($pergunta) {
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $this->apiKey;
 

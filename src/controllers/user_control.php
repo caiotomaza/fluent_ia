@@ -95,5 +95,13 @@
          }
          return null;
       }
+
+      public function buscarNomePorId($id) {
+         $sql = "SELECT nome FROM users WHERE id = :id";
+         $stmt = $this->conn->prepare($sql);
+         $stmt->bindParam(':id', $id);
+         $stmt->execute();
+         return $stmt->fetchColumn(); // retorna apenas o valor da coluna "nome"
+      }
    }
 ?>

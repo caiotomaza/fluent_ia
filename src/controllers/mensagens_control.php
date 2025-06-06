@@ -9,25 +9,15 @@
             $this->conn = Conexao::getConn();
         }
 
-        // Criar nova mensagem
-        public function enviar($conversas_id, $remetente_id, $mensagem) {
+        // Enviar nova mensagem
+        public function enviar($conversas_id, $remetente_id, $message) {
             $sql = "INSERT INTO mensagens (conversas_id, remetente_id, message) VALUES (:conversas_id, :remetente_id, :message)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':conversas_id', $conversas_id);
             $stmt->bindParam(':remetente_id', $remetente_id);
-            $stmt->bindParam(':message', $mensagem);
-            return $stmt->execute();
+            $stmt->bindParam(':message', $message);
+            $stmt->execute();
         }
-
-        // Listar todas as mensagens
-        public function BuscarMenssagen($conversas_id) {
-        $sql = "SELECT * FROM mensagens WHERE conversas_id = :conversas_id ORDER BY data_hora ASC";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':conversas_id', $conversas_id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
         public function buscarPorConversa($conversas_id) {
             $sql = "SELECT * FROM mensagens WHERE conversas_id = :conversas_id ORDER BY data_hora ASC";
@@ -47,12 +37,26 @@
             }
             return $mensagens;
         }
-        // Deletar mensagem por ID
-        public function deletar($id) {
-            $sql = "DELETE FROM mensagens WHERE id = :id";
+
+        // Busca menssagens do chat selecionado
+        public function BuscarMenssagen($conversas_id) {
+            $sql = "SELECT * FROM mensagens WHERE conversas_id = :conversas_id ORDER BY data_hora ASC";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id);
-            return $stmt->execute();
+            $stmt->execute(['conversas_id' => $conversas_id]);
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $mensagens = [];
+
+            foreach ($resultados as $row) {
+                $mensagens[] = new mensagens(
+                    $row['id'],
+                    $row['conversas_id'],
+                    $row['remetente_id'],
+                    $row['message'],
+                    $row['data_hora']
+                );
+            }
+            return $mensagens;
         }
     }
 ?>
