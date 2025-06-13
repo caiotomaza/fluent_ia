@@ -20,7 +20,7 @@ CREATE TABLE conversas (
 CREATE TABLE mensagens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     conversas_id INT NOT NULL,
-    remetente_id INT NOT NULL, -- quem enviou (usuário ou IA)
+    remetente_id INT, -- quem enviou (usuário ou IA)
     message TEXT NOT NULL,
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (conversas_id) REFERENCES conversas(id) ON DELETE CASCADE,

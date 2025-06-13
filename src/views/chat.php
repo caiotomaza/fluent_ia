@@ -49,71 +49,84 @@
 
     /////////////////////////////////////////////////////////////////////// Exibir os chat do usuario.
     function listarChatsUsuario($user_id, $conversasController) {
-    // Pega todas as conversas do usuário (se não houver método específico, pega todas e filtra)
-    $conversas = $conversasController->listarTodas();
-
-    // Filtrar só as conversas deste usuário
-    $conversasUsuario = array_filter($conversas, function($conversa) use ($user_id) {
-        return $conversa->getUser_id() == $user_id;
-    });
-
-    if (empty($conversasUsuario)) {
-        echo "<p class='text-gray-400'>Nenhuma conversa encontrada.</p>";
-        return;
-    }
-
-    // Inverter a ordem das conversas para que as novas apareçam em baixo
-    $conversasUsuario = array_reverse($conversasUsuario);
-    $index = count($conversasUsuario);
-
-    foreach ($conversasUsuario as $conversa) {
-        $idConversa = $conversa->getId();
-
-        // Pega o nome do chat ou usa nome padrão se estiver vazio
-        $nomeChat = $conversa->getNome();
-        if (!$nomeChat) {
-            $nomeChat = "Chat " . str_pad($index, 2, "0", STR_PAD_LEFT);
+        // Verifica se foi enviado um chat para seleção
+        if (isset($_POST['selecionar_chat_id'])) {
+            $_SESSION['conversas_id'] = $_POST['selecionar_chat_id'];
         }
 
-        echo <<<HTML
-      <div class="relative chat-container group">
-        <button class="w-full bg-[#181879] py-3 rounded-md flex justify-between text-2xl items-center px-4 hover:brightness-110 transition hover:bg-indigo-800 duration-300" data-chat-id="{$idConversa}" >
-          <span class="truncate">{$nomeChat}</span>
-          <img class="menu-icon cursor-pointer transition transform active:scale-95 hover:scale-110 duration-300 flex-shrink-0" src="./asset/menu.png" alt="Menu" />
-        </button>
+        // Lista todas as conversas
+        $conversas = $conversasController->listarTodas();
 
-        <div class="menu-options hidden fixed ml-2 border border-[#181879] rounded-xl p-2 border-indigo-900 space-y-4 w-44 z-50 bg-[#181879]/50 backdrop-blur-sm" style="left: 19rem; transform: translateY(-50%);">
-          <form method="POST" class="space-y-2" onclick="event.stopPropagation();">
-            <input type="hidden" name="editar_chat_id" value="{$idConversa}" />
-            <input
-              type="text"
-              name="novo_nome"
-              placeholder="Novo nome"
-              class="w-full px-2 py-1 rounded-md text-black"
-              required
-            />
-            <button
-              type="submit"
-              class="w-full flex bg-[#181879] items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl"
-            >
-              <i class="fa-solid fa-pen"></i>
-              Salvar
-            </button>
-          </form>
+        // Filtrar só as do usuário atual
+        $conversasUsuario = array_filter($conversas, function($conversa) use ($user_id) {
+            return $conversa->getUser_id() == $user_id;
+        });
 
-          <form method="POST" style="margin:0;" onsubmit="return confirm('Deseja realmente excluir este chat?');">
-            <input type="hidden" name="excluir_chat_id" value="{$idConversa}" />
-            <button type="submit" class="mt-2 bg-red-600 w-full flex items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl">
-              <i class="fa-solid fa-trash"></i>
-              Excluir
-            </button>
-          </form>
-        </div>
-      </div>
-      HTML;
+        if (empty($conversasUsuario)) {
+            echo "<p class='text-gray-400'>Nenhuma conversa encontrada.</p>";
+            return;
+        }
 
-        $index--;
-     }
+        // Organiza mais recente embaixo
+        $conversasUsuario = array_reverse($conversasUsuario);
+        $index = count($conversasUsuario);
+
+        foreach ($conversasUsuario as $conversa) {
+            $idConversa = $conversa->getId();
+
+            // Pega o nome do chat ou gera um nome padrão
+            $nomeChat = $conversa->getNome();
+            if (!$nomeChat) {
+                $nomeChat = "Chat " . str_pad($index, 2, "0", STR_PAD_LEFT);
+            }
+
+            // Verifica se é o chat atualmente selecionado
+            $selecionado = (isset($_SESSION['conversas_id']) && $_SESSION['conversas_id'] == $idConversa);
+
+            $classeSelecionado = $selecionado ? 'bg-indigo-800' : 'bg-[#181879]';
+
+            echo <<<HTML
+            <div class="relative chat-container group">
+                <form method="POST" style="margin:0;">
+                    <input type="hidden" name="selecionar_chat_id" value="{$idConversa}" />
+                    <button type="submit" class="w-full {$classeSelecionado} py-3 rounded-md flex justify-between text-2xl items-center px-4 hover:brightness-110 transition duration-300">
+                        <span class="truncate">{$nomeChat}</span>
+                        <img class="menu-icon cursor-pointer transition transform active:scale-95 hover:scale-110 duration-300 flex-shrink-0" src="./asset/menu.png" alt="Menu" />
+                    </button>
+                </form>
+
+                <div class="menu-options hidden fixed ml-2 border border-[#181879] rounded-xl p-2 border-indigo-900 space-y-4 w-44 z-50 bg-[#181879]/50 backdrop-blur-sm" style="left: 19rem; transform: translateY(-50%);">
+                    <form method="POST" class="space-y-2" onclick="event.stopPropagation();">
+                        <input type="hidden" name="editar_chat_id" value="{$idConversa}" />
+                        <input
+                            type="text"
+                            name="novo_nome"
+                            placeholder="Novo nome"
+                            class="w-full px-2 py-1 rounded-md text-black"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            class="w-full flex bg-[#181879] items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                            Salvar
+                        </button>
+                    </form>
+
+                    <form method="POST" style="margin:0;" onsubmit="return confirm('Deseja realmente excluir este chat?');">
+                        <input type="hidden" name="excluir_chat_id" value="{$idConversa}" />
+                        <button type="submit" class="mt-2 bg-red-600 w-full flex items-center gap-2 text-white hover:brightness-110 px-4 py-2 rounded-xl">
+                            <i class="fa-solid fa-trash"></i>
+                            Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+            HTML;
+
+            $index--;
+        }
     }
 
     //Função de excluir o chat.
@@ -148,6 +161,71 @@
       header("Location: login.php");
       exit;
     }
+
+    // Salavar memssagen do usuario
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])){
+      $conversas_id = $_SESSION['conversas_id'];
+      $remetente_id = $_SESSION['usuario_id'];
+      $message = trim($_POST['mensagem']);
+      $mensagensController->enviar($conversas_id, $remetente_id, $message);
+    }
+
+  function exibirMensagens($conversas_id, $mensagensController) {
+      if (!$conversas_id) {
+          echo "<p class='text-gray-400'>Nenhuma conversa selecionada.</p>";
+          return;
+      }
+
+      // Busca mensagens da conversa atual
+      $mensagens = $mensagensController->BuscarMenssagen($conversas_id);
+
+      if (empty($mensagens)) {
+          echo "<p class='text-gray-400'>Nenhuma mensagem nesta conversa.</p>";
+          return;
+      }
+
+      // Exibir as mensagens em ordem (mais antigas primeiro)
+      foreach ($mensagens as $mensagem) {
+          $id = htmlspecialchars($mensagem->getRemetente_id());
+          $texto = htmlspecialchars($mensagem->getMessage());
+          $data = htmlspecialchars($mensagem->getData_hora());
+
+          $userController = new UserController();
+          $nomeRemetente = htmlspecialchars($userController->buscarNomePorId($id));
+
+          // Se o nome for nulo ou vazio, define como "IA"
+          if (empty($nomeRemetente)) {
+              $nomeRemetente = "Fluent_IA";
+          } else {
+              $nomeRemetente = htmlspecialchars($nomeRemetente);
+          }
+
+          echo <<<HTML
+          <div class="bg-indigo-900 text-white p-3 rounded-xl mb-2">
+              <div class="flex justify-between text-sm text-gray-300 mb-1">
+                  <span>{$nomeRemetente}</span>
+                  <span>{$data}</span>
+              </div>
+              <div class="text-lg">{$texto}</div>
+          </div>
+          HTML;
+      }
+  }
+
+  $_SESSION['metodo_ia'] = 1;
+
+  //Função de selecionar o metodos da IA
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['melhorar'])) {
+    $_SESSION['metodo_ia'] = 1;
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['simplificar'])) {
+    $_SESSION['metodo_ia'] = 2;
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['traduzir'])) {
+    $_SESSION['metodo_ia'] = 3;
+  }
 ?>
 
 <!DOCTYPE html>
@@ -220,38 +298,35 @@
     <main class="flex-1 flex flex-col p-4 relative">
       <!-- Área de mensagens -->
       <div class="flex-1 overflow-y-auto flex flex-col gap-4 mb-4">
-        <?php if (empty($mensagens)): ?>
-          <p class="text-center text-gray-400">Nenhuma mensagem ainda.</p>
-        <?php else: ?>
-          <?php foreach ($mensagens as $mensagem): ?>
-            <?php 
-              $isUserMessage = $mensagem->getRemetente_id() == $_SESSION['usuario_id'];
-              $messageClass = $isUserMessage ? 'ml-auto bg-[#181879]' : 'mr-auto bg-gray-700';
-              $maxWidth = 'max-w-[70%]';
-            ?>
-            <div class="<?= $messageClass ?> <?= $maxWidth ?> p-3 rounded-lg">
-              <p class="text-white"><?= htmlspecialchars($mensagem->getConteudo()) ?></p>
-              <span class="text-sm text-gray-400 block mt-1"><?= date('H:i', strtotime($mensagem->getData_hora())) ?></span>
-            </div>
-          <?php endforeach; ?>
-        <?php endif; ?>
+        <?php if (isset($_SESSION['conversas_id'])) { ?>
+          <?php exibirMensagens($_SESSION['conversas_id'], $mensagensController);?>
+        <?php } else { ?>
+          <?php echo "<p class='text-center text-gray-400'>Nenhuma conversa selecionada.</p>"; ?>
+        <?php } ?>
       </div>
 
       <!-- Área de mensagens pré-definidas -->
       <div class="flex gap-2 mb-4">
-        <button type="button" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="melhorar">
-          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Melhorar
-        </button>
-        <button type="button" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="simplificar">
-          <i class="fa-solid fa-scissors mr-2"></i>Simplificar
-        </button>
-        <button type="button" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="traduzir">
-          <i class="fa-solid fa-language mr-2"></i>Traduzir
-        </button>
+        <form method="POST" action="chat.php" name="melhorar">
+          <button type="submit" name="melhorar" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="melhorar">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Melhorar
+          </button>
+        </form>
+        <form method="POST" action="chat.php" name="simplificar">
+          <button type="submit" name="simplificar" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="simplificar">
+            <i class="fa-solid fa-scissors mr-2"></i>Simplificar
+          </button>
+        </form>
+        <form method="POST" action="chat.php" name="traduzir">
+          <button type="submit" name="traduzir" class="quick-action bg-[#181879] text-white px-4 py-2 rounded-lg hover:brightness-110 transition" data-action="traduzir">
+            <i class="fa-solid fa-language mr-2"></i>Traduzir
+          </button>
+        </form>
       </div>
 
+      
       <!-- Formulário de envio -->
-      <form class="flex items-center space-x-2" method="POST" action="enviar_mensagem.php">
+      <form class="flex items-center space-x-2" method="POST" action="index.php">
         <input type="hidden" name="conversas_id" value="<?= $conversaSelecionadaId ?>">
         <input
           type="text"
